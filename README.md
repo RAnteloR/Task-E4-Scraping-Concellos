@@ -16,6 +16,10 @@ Scraping de la página de Wikipedia con la población de los 93 concellos de la 
 ├── requirements.txt          # dependencias con versiones fijadas
 ├── notebooks/
 │   └── E4_concellos.ipynb    # el ejercicio completo, ejecutado y con salidas visibles
+├── output/
+│   ├── top10_concellos.png          # gráfica de la pregunta 1
+│   ├── distribucion_poblacion.png   # gráfica de la pregunta 2
+│   └── poblacion_acumulada.png      # gráfica de la pregunta 4
 └── datos/
     ├── raw/
     │   └── concellos_coruna.html   # HTML original de la página, en bytes y sin modificar
@@ -25,6 +29,7 @@ Scraping de la página de Wikipedia con la población de los 93 concellos de la 
 
 - `datos/raw/` guarda la página tal como llegó, para poder repetir la extracción sin volver a descargar.
 - `datos/clean/` guarda el resultado final tras la limpieza.
+- `output/` guarda las gráficas en PNG (además de mostrarse en el notebook).
 
 ## Cómo ejecutarlo
 
@@ -37,22 +42,24 @@ cd Task-E4-Scraping-Concellos
 
 ### 2. Crear el entorno e instalar las dependencias
 
+Requiere **Python 3.12** (probado con 3.12 en Linux/WSL).
+
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate        # en Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
 ### 3. Ejecutar el notebook
 
-Desde Jupyter, VS Code o por línea de comandos:
+Con el entorno activado, desde Jupyter, VS Code o por línea de comandos:
 
 ```bash
 cd notebooks
 jupyter nbconvert --to notebook --execute --inplace E4_concellos.ipynb
 ```
 
-El notebook se puede ejecutar de principio a fin con la carpeta `datos/` vacía: crea `datos/raw/` y `datos/clean/` si no existen y descarga la página la primera vez. Si `datos/raw/concellos_coruna.html` ya existe, **no se vuelve a descargar**.
+El notebook se puede ejecutar de principio a fin con la carpeta `datos/` vacía: crea `datos/raw/`, `datos/clean/` y `output/` si no existen y descarga la página la primera vez. Si `datos/raw/concellos_coruna.html` ya existe, **no se vuelve a descargar**.
 
 > Las rutas del notebook son relativas (`../datos/...`), así que debe ejecutarse con `notebooks/` como directorio de trabajo.
 
@@ -65,7 +72,7 @@ El notebook se puede ejecutar de principio a fin con la carpeta `datos/` vacía:
 | **4.3 Extracción** | Localiza la tabla **por el contenido de su cabecera** (`Population…`), no por su posición, y la convierte en un DataFrame con concello y población. |
 | **4.4 Limpieza** | Comprueba que todos los valores tienen el mismo formato y los convierte a entero. |
 | **4.5 Validación** | Comprueba que hay 93 concellos sin repetidos, compara la suma con el total de población que dice el texto de la página y contrasta el resultado con `pd.read_html`. |
-| **4.6 Preguntas** | Responde con código y una frase de interpretación a las cuatro preguntas. |
+| **4.6 Preguntas** | Responde con código y una frase de interpretación a las cuatro preguntas, con tres gráficas: top 10 de concellos, distribución de la población (escala logarítmica) y población acumulada, guardadas en `output/`. |
 | **4.7 Guardar** | Escribe el CSV limpio en `datos/clean/` en UTF-8. |
 | **Uso de IA** | Indica qué herramientas de IA se usaron y para qué. |
 
@@ -84,7 +91,6 @@ El notebook se puede ejecutar de principio a fin con la carpeta `datos/` vacía:
 
 Se ha usado Claude Code (Anthropic) como ayuda en:
 
-- **Generación del esqueleto del notebook:** primer borrador de la estructura (descarga, extracción, limpieza, validación y preguntas) a partir del enunciado.
 - **Revisión del código:** localizar errores al ejecutarlo, por ejemplo que `RobotFileParser.read()` devolvía «no permitido» por el bloqueo del User-Agent por defecto de urllib, y proponer la corrección.
 - **Documentación:** redacción del README y repaso de las frases de interpretación para que coincidieran con los resultados reales.
 
