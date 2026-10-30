@@ -45,10 +45,12 @@ cd Task-E4-Scraping-Concellos
 Requiere **Python 3.12** (probado con 3.12 en Linux/WSL).
 
 ```bash
-python3.12 -m venv .venv
+uv venv --python 3.12 .venv
 source .venv/bin/activate        # en Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
+
+> Si no tienes `uv`, instálalo desde https://docs.astral.sh/uv/getting-started/installation/.
 
 ### 3. Ejecutar el notebook
 
@@ -56,7 +58,7 @@ Con el entorno activado, desde Jupyter, VS Code o por línea de comandos:
 
 ```bash
 cd notebooks
-jupyter nbconvert --to notebook --execute --inplace E4_concellos.ipynb
+uv run jupyter nbconvert --to notebook --execute --inplace E4_concellos.ipynb
 ```
 
 El notebook se puede ejecutar de principio a fin con la carpeta `datos/` vacía: crea `datos/raw/`, `datos/clean/` y `output/` si no existen y descarga la página la primera vez. Si `datos/raw/concellos_coruna.html` ya existe, **no se vuelve a descargar**.
